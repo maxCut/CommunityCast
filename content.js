@@ -1,1 +1,1 @@
-prompt("Hello from your Chrome extension!")
+prompt("Where would you like to cast to?")
