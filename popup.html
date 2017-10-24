@@ -1,6 +1,7 @@
 <html>
     <head>
         <title>Chose Your Device</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css"/>
         <style type="text/css">
         </style>
         <script src="popup.js"></script>
@@ -10,16 +11,12 @@
         -->
     </head>
     <body>
-        <h1>Choose your device</h1>
-        <div id = "container">
-            <span> Devices </span>
-            <select id = "dropdown">
-                <option value="Device 1">Device 1</option>
-                <option value="Device 2">Device 2</option>
-                <option value="Device 3">Device 3</option>
-                <option value="Device 4">Device 4</option>
-            </select>
-        </div>
+		<div class="pretty p-switch p-fill">
+        <input type="checkbox" value="on" checked/>
+        	<div class="state">
+            	<label>Enable</label>
+        	</div>
+    	</div>
     </body>
 </html>
 
