@@ -5,6 +5,11 @@
         <style type="text/css">
         </style>
         <script src="popup.js"></script>
+        <script
+                src="https://code.jquery.com/jquery-3.2.1.min.js"
+                integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+                    crossorigin="anonymous"></script>
+        <script src="main.js"></script>
         <!--
             Google won't aprove the extension if
             you don't separate the html and js files like seen above
@@ -12,7 +17,7 @@
     </head>
     <body>
 		<div class="pretty p-switch p-fill">
-        <input type="checkbox" value="on" checked/>
+        <input class = "enabled" type="checkbox" value="on" checked onchange="saveChanges()"/>
         	<div class="state">
             	<label>Enable</label>
         	</div>
