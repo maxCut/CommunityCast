@@ -1,6 +1,7 @@
 function saveChanges() {
         // Get a value saved in a form.
         var theValue = $(".enabled").attr("value");
+        console.log(theValue);
         // Check that there's some code there.
         if (!theValue) {
           message('Error: No value specified');
