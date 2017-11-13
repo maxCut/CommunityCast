@@ -5,7 +5,7 @@ window.onload = function() {
         // handler for the 'ready' event
         castReceiverManager.onReady = function(event) {
           console.log('Session Ready');
-          window.castReceiverManager.setApplicationState('Application status is ready');
+          window.castReceiverManager.setApplicationState('Community Cast Enabled');
         };
         // handler for 'senderconnected' event
         castReceiverManager.onSenderConnected = function(event) {
