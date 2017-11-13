@@ -1,26 +1,53 @@
-var cast = {games:{}};
-cast.games.common = {};
-cast.games.common.sender = {};
-cast.games.common.sender.setup = function(appId, sessionCallback) {
-  console.log("### Preparing session request and cast sender API config with app ID " + appId);
-  var sessionRequest = new chrome.cast.SessionRequest(appId), apiConfig = new chrome.cast.ApiConfig(sessionRequest, sessionCallback, cast.games.common.sender.setup.onCastReceiverChanged_);
-  console.log("### Initializing cast sender API and requesting a session.");
-  chrome.cast.initialize(apiConfig, cast.games.common.sender.setup.onCastInit_, cast.games.common.sender.setup.onCastError_);
-};
+//var appID = "794B7BBF";
+var appID = "C8E098E5";
+var namespace = 'urn:x-cast:communitycast' //this needs to be changed to ours but i want to double check that this is not the issue 
+var session = null;
 
-cast.games.spritedemo = {};
-cast.games.spritedemo.SpritedemoMessageType = {UNKNOWN:0, SPRITE:1};
-cast.games.spritedemo.SpritedemoMessage = function() {
-  this.type = cast.games.spritedemo.SpritedemoMessageType.UNKNOWN;
-};
-var gameManagerClient = null;
-window.__onGCastApiAvailable = function(loaded, errorInfo) {
-  loaded ? cast.games.common.sender.setup("D6120C32", onSessionReady_) : (console.error("### Cast Sender SDK failed to load:"), console.dir(errorInfo));
-};
-var onSessionReady_ = function(session) {
-  console.log("### Creating game manager client.");
-  chrome.cast.games.GameManagerClient.getInstanceFor(session, function(result) {
-  }, function(error) {
-    console.error("### Error initializing the game manager client :( : " + error.errorDescription + " Error code: " + error.errorCode);
-  });
-};
+if (!chrome.cast || !chrome.cast.isAvailable) {
+    setTimeout(initializeCastApi, 1000);
+}
+
+function initializeCastApi(){
+    var sessionRequest = new chrome.cast.SessionRequest(appID);
+    var apiConfig = new chrome.cast.ApiConfig(sessionRequest,sessionListener,receiverListener);
+
+    chrome.cast.initialize(apiConfig,onSuccess,onFail);
+}
+
+function onSuccess() {
+    console.log('woooohooooo');
+}
+
+
+function onFail(message) {
+    console.log(':( ... failed to connect');
+}
+
+function receiverMessage(namespace,message){
+    console.log('message received')
+}
+
+function sessionListener(e) {
+        console.log('New session ID:' + e.sessionId);
+        session = e;
+        session.addUpdateListener(sessionUpdateListener);
+        session.addMessageListener(namespace, receiverMessage);
+}
+
+
+function receiverListener(e) {
+	if(e === 'available') {
+          console.log('receiver found');
+        }
+        else {
+          console.log('receiver list empty');
+        }
+}
+
+function sessionUpdateListener(state){
+    console.log("session updated")
+    if(!state){
+        session=null
+    }
+
+}
