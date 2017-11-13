@@ -37,5 +37,5 @@ function loadScriptsNoCache(paths) {
 
 loadScriptsNoCache([
 'https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadGamesSDK&',
-  'communityCastMain.js'
+  'communityCastMain.js
 ]);

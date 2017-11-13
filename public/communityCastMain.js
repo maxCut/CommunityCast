@@ -23,10 +23,6 @@ window.onload = function() {
         window.castReceiverManager.start({statusText: 'Application is starting'});
         console.log('Receiver Manager started');
 
- 	window.messageBus =
-          window.castReceiverManager.getCastMessageBus(
-              'urn:x-cast:com.google.cast.sample.helloworld');
-
         // handler for the CastMessageBus message event
         window.messageBus.onMessage = function(event) {
           console.log('Message [' + event.senderId + ']: ' + event.data);
