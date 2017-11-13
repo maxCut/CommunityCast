@@ -1,64 +1,30 @@
-var cast = cast || {}; cast.games = cast.games || {};
-cast.games.common = {};
-cast.games.common.receiver = {};
-cast.games.common.receiver.Game = function() {
-};
-cast.games.communitycast = {};
-cast.games.communitycast.CommunitycastMessageType = {UNKNOWN:0, SPRITE:1};
-cast.games.communitycast.CommunitycastMessage = function() {
-  this.type = cast.games.communitycast.CommunitycastMessageType.UNKNOWN;
-};
-
-cast.games.communitycast = {};
-cast.games.communitycast.CommunitycastMessageType = {UNKNOWN:0, SPRITE:1};
-
-cast.games.communitycast.CommunitycastGame = function(gameManager) {
-  this.gameManager_ = gameManager;
-};
-
-var game = null;
-
-var initialize = function() {
-  var castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
-  var appConfig = new cast.receiver.CastReceiverManager.Config();
-
-  appConfig.statusText = 'Communitycast';
-  // In production, use the default maxInactivity instead of using this.
-  appConfig.maxInactivity = 6000;
-
-  // Create the game before starting castReceiverManager to make sure any extra
-  // cast namespaces can be set up.
-  /** @suppress {missingRequire} */
-  var gameConfig = new cast.receiver.games.GameManagerConfig();
-  gameConfig.applicationName = 'Communitycast';
-  gameConfig.maxPlayers = 10;
-
-  /** @suppress {missingRequire} */
-  var gameManager = new cast.receiver.games.GameManager(gameConfig);
-
-  /** @suppress {missingRequire} */
-  game = new cast.games.communitycast.CommunitycastGame(gameManager);
-
-  var startGame = function() {
-    game.run(function() {
-      console.log('Game running.');
-      gameManager.updateGameStatusText('Game running.');
-    });
-  };
-
-  castReceiverManager.onReady = function(event) {
-    if (document.readyState === 'complete') {
-      startGame();
-    } else {
-      window.onload = startGame;
-    }
-  };
-  castReceiverManager.start(appConfig);
-};
-
-if (document.readyState === 'complete') {
-  initialize();
-} else {
-  /** Main entry point. */
-  window.onload = initialize;
-}
+window.onload = function() {
+        cast.receiver.logger.setLevelValue(0);
+        window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
+        console.log('Starting Session');
+        // handler for the 'ready' event
+        castReceiverManager.onReady = function(event) {
+          console.log('Session Ready');
+          window.castReceiverManager.setApplicationState('Application status is ready');
+        };
+        // handler for 'senderconnected' event
+        castReceiverManager.onSenderConnected = function(event) {
+          console.log('Sender Connected');
+        };
+        // handler for 'senderdisconnected' event
+        castReceiverManager.onSenderDisconnected = function(event) {
+          console.log('Sender Disconnected');
+          if (window.castReceiverManager.getSenders().length == 0) {
+            window.close();
+          }
+        };
+        // initialize the CastReceiverManager with an application status message
+        window.castReceiverManager.start({statusText: 'Application is starting'});
+        console.log('Receiver Manager started');
+      };
+      // utility function to display the text message in the input field
+      function displayText(text) {
+        console.log(text);
+        document.getElementById('message').innerText = text;
+        window.castReceiverManager.setApplicationState(text);
+      };
