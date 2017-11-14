@@ -29,7 +29,7 @@ window.onload = function() {
           displayText(event.data);
           // inform all senders of the incoming message
           // sender message listener will be invoked
-          window.messageBus.send(event.senderId, event.data);
+          window.messageBus.broadcast("from : " + event.senderId + " message is : " + event.data);
         }
 
 	//starting text display on cast menu
