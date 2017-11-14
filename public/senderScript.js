@@ -25,6 +25,7 @@ function onFail(message) {
 
 function receiverMessage(namespace,message){
     console.log('message received')
+    console.log(JSON.stringify(message))
 }
 
 function sessionListener(e) {
@@ -50,4 +51,16 @@ function sessionUpdateListener(state){
         session=null
     }
 
+}
+
+function sendMessage(message){
+    if(session!=null)
+    {
+        session.sendMessage(namespace,message)
+        console.log('message sent')
+    }
+    else
+    {
+        console.log('not connected to a session!')
+    }
 }
