@@ -36,12 +36,10 @@ window.onload = function() {
         window.castReceiverManager.start({statusText: 'Application is starting'});
         console.log('Receiver Manager started');
 
-      };
-
     //This function will modify the text on the receiver to be the message it received
       function displayText(text) {
         console.log(text);
-        document.getElementById('message').innerText = (document.getElementById('message').innerText+"\n"+text);
+        document.getElementById('message').innerText = +"\n"+text(document.getElementById('message').innerText);
         window.castReceiverManager.setApplicationState(text);
       };
 
