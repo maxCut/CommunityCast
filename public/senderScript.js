@@ -55,7 +55,7 @@ function sessionUpdateListener(state){
 
 function grabMessage() {
     var message = document.getElementById("message-box");
-    console.log(message.value);
+    sendMessage(message);
 }
 
 function sendMessage(message){
