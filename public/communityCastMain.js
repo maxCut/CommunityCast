@@ -35,6 +35,7 @@ window.onload = function() {
 	//starting text display on cast menu
         window.castReceiverManager.start({statusText: 'Application is starting'});
         console.log('Receiver Manager started');
+        };
 
     //This function will modify the text on the receiver to be the message it received
       function displayText(text) {
