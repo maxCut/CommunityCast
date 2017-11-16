@@ -19,17 +19,29 @@ window.onload = function() {
           }
         };
         
-        // initialize the CastReceiverManager with an application status message
+	//Messaging Protocol
+	window.messageBus =
+          window.castReceiverManager.getCastMessageBus('urn:x-cast:communitycast');
+        // handler for the CastMessageBus message event
+        window.messageBus.onMessage = function(event) {
+          console.log('From : ' + event.senderId + " message is : " + event.data);
+          // display the message from the sender
+          displayText(event.data);
+          // inform all senders of the incoming message
+          // sender message listener will be invoked
+          window.messageBus.broadcast("from : " + event.senderId + " message is : " + event.data);
+        }
+
+	//starting text display on cast menu
         window.castReceiverManager.start({statusText: 'Application is starting'});
         console.log('Receiver Manager started');
 
-	//starting
-        window.castReceiverManager.start({statusText: 'Application is starting'});
       };
-      // utility function to display the text message in the input field
+
+    //This function will modify the text on the receiver to be the message it received
       function displayText(text) {
         console.log(text);
-        document.getElementById('message').innerText = text;
+        document.getElementById('message').innerText += ("\n"+text);
         window.castReceiverManager.setApplicationState(text);
       };
 
