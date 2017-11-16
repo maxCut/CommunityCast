@@ -1,12 +1,62 @@
 <!DOCTYPE html>
 <html>
   <head>
-    
-
+    <title>Community Sender</title>
   </head>
-  <body>
+<style>
+
+  body {
+  	font-family: sans-serif;
+  	background-color: #d3d3d3;
+  }
+  .wrap {
+	width: 95%;
+	max-width: 1100px;
+	margin: 0 auto;
+}
+
+  h1, h2, h3, h4, h5, h6 {
+  	text-align: center;
+  }
+
+  h3 {
+  	margin: 20px 20px 20px 20px;
+  }
+
+  #instructions {
+  	background-color: #597e8e;
+  }
+
+  #number {
+  	color: black;
+  }
+
+  #list-item {
+  	text-align: left;
+  	color: white;
+  }
+
+
+</style>
+  <body class="wrap">
   	<h1>This is the sender application</h1>
-  	<h3> Testing </h3>
+  	<div id="instructions">
+	  	<h1>Instructions for starting the server</h1>
+	  	<h3 id="list-item"><span id="number">1</span> Navigate to the CommunityCastReceiver folder on your computer</h3>
+	  	<h3 id="list-item"><span id="number">2</span> Run the command <span style="background-color: black;"> $ node index.js</span></h3>
+	  	<h3 id="list-item"><span id="number">3</span> The server runs index.html on port 3000</h3>
+	 </div>
+	 <div id="instructions">
+	  	<h1>Instructions for sending messages</h1>
+	  	<h3 id="list-item"><span id="number">1</span> Connect to the wifi name "builds-sec", the password is written on the whiteboard</h3>
+	  	<h3 id="list-item"><span id="number">2</span> Click on the three dots in the upper right corner of the screen</h3>
+	  	<h3 id="list-item"><span id="number">3</span> Click on "Cast..."</h3>
+	  	<h3 id="list-item"><span id="number">4</span> Select the chromecast name "Hank the Tank" and wait until it is successfully connected</h3>
+	  	<h3 id="list-item"><span id="number">5</span> Once you are connected, right click and select "Inspect" in the pop-up window</h3>
+	  	<h3 id="list-item"><span id="number">6</span> Navigate to the "Console" tab</h3>
+	  	<h3 id="list-item"><span id="number">6</span> Send messages to the display by using the function sendMessage("some string")</h3>
+	 </div>
+
    <script src="/script_loader.js"></script>
   </body>
 </html>
