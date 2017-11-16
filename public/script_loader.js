@@ -39,3 +39,5 @@ loadScriptsNoCache([
 'https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadGamesSDK&',
   'senderScript.js'
 ]);
+
+// I want to add another js file that contains the screensharing stuff
