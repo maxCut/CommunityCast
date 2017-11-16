@@ -53,6 +53,11 @@ function sessionUpdateListener(state){
 
 }
 
+function grabMessage() {
+    var message = document.getElementById("message-box");
+    console.log(message.value);
+}
+
 function sendMessage(message){
     if(session!=null)
     {
