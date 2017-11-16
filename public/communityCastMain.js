@@ -39,7 +39,7 @@ window.onload = function() {
     //This function will modify the text on the receiver to be the message it received
       function displayText(text) {
         console.log(text);
-        document.getElementById('message').innerText = +"\n"+text(document.getElementById('message').innerText);
+        document.getElementById('message').innerText = text+"\n"+document.getElementById('message').innerText;
         window.castReceiverManager.setApplicationState(text);
       };
 
