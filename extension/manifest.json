@@ -11,7 +11,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://localhost:8000/*"],
+      "matches": ["http://communitycastsender.herokuapp.com/"],
       "js": ["content-script.js"]
     }
   ],
