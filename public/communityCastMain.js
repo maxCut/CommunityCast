@@ -32,7 +32,11 @@ window.onload = function() {
           window.messageBus.broadcast("from : " + event.senderId + " message is : " + event.data);
         }
 
-	//starting text display on cast menu
+    //Media Protocol
+    window.mediaElement = document.getElementById('vid');
+    window.mediaManager = new cast.receiver.MediaManager(window.mediaElement);
+	
+    //starting text display on cast menu
         window.castReceiverManager.start({statusText: 'Application is starting'});
         console.log('Receiver Manager started');
         };
