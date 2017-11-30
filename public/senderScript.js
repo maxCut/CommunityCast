@@ -28,6 +28,16 @@ function receiverMessage(namespace,message){
     console.log(JSON.stringify(message))
 }
 
+function sendMedia(url) {
+    console.log('sending media')
+    var mediaInfo = new chrome.cast.media.MediaInfo(url)
+    var request = new chrome.cast.media.LoadRequest(mediaInfo);
+    request.autoplay = true;
+    request.currentTime = 0;
+    session.loadMedia(request,onSuccess,onFail)
+    session.sendMessage(namespace,request)
+}
+
 function sessionListener(e) {
         console.log('New session ID:' + e.sessionId);
         session = e;
