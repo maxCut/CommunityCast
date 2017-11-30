@@ -40,7 +40,6 @@ window.onload = function() {
     window.mediaManager.onLoad = function(event){
         console.log("received video");
         window.messageBus.broadcast("received video");
-        window.mediaManager.load(event)
         data = event.data.media.customData;
         window.messageBus.broadcast(data);
     };
