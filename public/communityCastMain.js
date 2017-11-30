@@ -35,7 +35,12 @@ window.onload = function() {
     //Media Protocol
 
     window.mediaElement = document.getElementById('vid');
-	
+    window.mediaManager = new cast.receiver.MediaManager(window.mediaElement);
+    
+    window.mediaManager.onLoad = function(event){
+        console.log("received video");
+        window.messageBus.broadcast("received video");
+    };
     //starting text display on cast menu
         window.castReceiverManager.start({statusText: 'Application is starting'});
         console.log('Receiver Manager started');
