@@ -35,7 +35,7 @@ function sendMedia(url) {
     request.autoplay = true;
     request.currentTime = 0;
     session.loadMedia(request,onSuccess,onFail)
-    session.sendMessage(namespace,request)
+    //session.sendMessage(namespace,request)
 }
 
 function sessionListener(e) {
