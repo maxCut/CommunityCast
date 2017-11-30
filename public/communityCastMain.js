@@ -41,7 +41,7 @@ window.onload = function() {
         console.log("received video");
         window.messageBus.broadcast("received video");
         data = event.data.media.customData;
-        window.messageBus.broadcast(data);
+        log(data);
     };
     //starting text display on cast menu
         window.castReceiverManager.start({statusText: 'Application is starting'});
