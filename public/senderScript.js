@@ -15,12 +15,12 @@ function initializeCastApi(){
 }
 
 function onSuccess() {
-    console.log('woooohooooo');
+    console.log('Sucess');
 }
 
 
 function onFail(message) {
-    console.log(':( ... failed to connect');
+    console.log('Error' + message);
 }
 
 function receiverMessage(namespace,message){
@@ -30,7 +30,14 @@ function receiverMessage(namespace,message){
 
 function sendMedia(url) {
     console.log('sending media')
+    
     var mediaInfo = new chrome.cast.media.MediaInfo(url)
+    mediaInfo.metadata = new chrome.cast.media.GenericMediaMetadata();
+    mediaInfo.metadata.metadataType = chrome.cast.media.MetadataType.GENERIC;
+    mediaInfo.contentType = 'video/mp4';
+    mediaInfo.metadata.title = 'title';
+    mediaInfo.metadata.images = [{'url':url}];
+            
     var request = new chrome.cast.media.LoadRequest(mediaInfo);
     request.autoplay = true;
     request.currentTime = 0;
