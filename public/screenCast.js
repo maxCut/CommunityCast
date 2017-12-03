@@ -16,7 +16,6 @@ document.getElementById('start').addEventListener('click', function() {
 
 // listen for messages from the content-script
 window.addEventListener('message', function (event) {
-  console.log('js is updated');
   console.log('event data type is ' + event.data.type);
   if (event.origin != window.location.origin) return;
 
