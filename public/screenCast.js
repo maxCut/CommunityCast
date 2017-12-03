@@ -1,4 +1,4 @@
-var extensionInstalled = false;
+var extensionInstalled = true;
 
 document.getElementById('start').addEventListener('click', function() {
   // send screen-sharer request to content-script
