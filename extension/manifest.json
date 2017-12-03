@@ -11,13 +11,13 @@
   },
   "content_scripts": [
     {
-      "matches": ["http://communitycastsender.herokuapp.com/"],
+      "matches": ["https://communitycastsender.herokuapp.com/"],
       "js": ["content-script.js"]
     }
   ],
   "permissions": [
     "desktopCapture",
-    "http://communitycastsender.herokuapp.com/",
+    "https://communitycastsender.herokuapp.com/",
     "tabs"
   ]
 }
