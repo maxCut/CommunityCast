@@ -37,16 +37,11 @@
   }
 
   }
-  video {
-    width: 640px;
-    height: 480px;
-    border: 1px solid black;
-  }
 
 </style>
   <body class="wrap">
     <script src="https://cdn.WebRTC-Experiment.com/getScreenId.js"></script>
-    <video controls autoplay></video>
+    <video controls autoplay style="width: 500px; height: 500px;"></video>
     <script>
     getScreenId(function (error, sourceId, screen_constraints) {
         navigator.getUserMedia = navigator.mozGetUserMedia || navigator.webkitGetUserMedia;
