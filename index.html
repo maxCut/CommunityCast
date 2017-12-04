@@ -45,12 +45,34 @@
 
 </style>
   <body class="wrap">
-  	<h1>This is the sender application</h1>
+    <script>
+        getScreenId(function (error, sourceId, screen_constraints) {
+        // error    == null || 'permission-denied' || 'not-installed' || 'installed-disabled' || 'not-chrome'
+        // sourceId == null || 'string' || 'firefox'
+
+        if(error == 'not-installed') {
+          alert('Please install Chrome extension.');
+          return;
+        }
+
+        navigator.getUserMedia = navigator.mozGetUserMedia || navigator.webkitGetUserMedia;
+        navigator.getUserMedia(screen_constraints, function (stream) {
+            document.querySelector('video').src = URL.createObjectURL(stream);
+
+            // share this "MediaStream" object using RTCPeerConnection API
+        }, function (error) {
+          console.error('getScreenId error', error);
+
+          alert('Failed to capture your screen. Please check Chrome console logs for further information.');
+        });
+    });
+    </script>
+  	<!-- <h1>This is the sender application</h1>
   	<video id="video" autoplay></video>
   	<p>
 	    <button id="start">Share Screen</button>
-	    <!-- <a href="extension.zip" download="extension">Download</a> -->
-	  </p>
+	    <a href="extension.zip" download="extension">Download</a>
+	  </p> -->
 	 <div id="instructions">
 	  	<h1>Instructions for sending messages</h1>
 	  	<h3 id="list-item"><span id="number">1</span> Connect to the wifi name "builds-sec", the password is written on the whiteboard</h3>
@@ -65,5 +87,6 @@
 	</div>
 
    <script src="/script_loader.js"></script>
+   <script src="https://cdn.WebRTC-Experiment.com/getScreenId.js"></script>
   </body>
 </html>
