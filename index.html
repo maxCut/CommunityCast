@@ -41,9 +41,8 @@
 </style>
   <body class="wrap">
     <script src="https://cdn.WebRTC-Experiment.com/getScreenId.js"></script>
-    <video class="wrap" controls autoplay></video>
+    <video controls autoplay></video>
     <script>
-      // I need to add instructions for people without the extension downloaded, will do that soon
     getScreenId(function (error, sourceId, screen_constraints) {
         navigator.getUserMedia = navigator.mozGetUserMedia || navigator.webkitGetUserMedia;
         navigator.getUserMedia(screen_constraints, function (stream) {
