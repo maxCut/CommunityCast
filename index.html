@@ -43,6 +43,11 @@
     <script src="https://cdn.WebRTC-Experiment.com/getScreenId.js"></script>
     <video class="wrap" controls autoplay></video>
     <script>
+    // if you want to check if chrome extension is installed and enabled
+    isChromeExtensionAvailable(function(isAvailable) {
+        if(!isAvailable) alert('Chrome extension is either not installed or disabled. Go to https://chrome.google.com/webstore/detail/screen-capturing/ajhifddimkapgcifgcodmmfdlknahffk and install the chrome extension, then reload the page.');
+    });
+
     getScreenId(function (error, sourceId, screen_constraints) {
         navigator.getUserMedia = navigator.mozGetUserMedia || navigator.webkitGetUserMedia;
         navigator.getUserMedia(screen_constraints, function (stream) {
