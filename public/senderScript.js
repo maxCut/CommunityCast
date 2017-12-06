@@ -48,8 +48,8 @@ function sendMedia(url) {
 getScreenId(function (error, sourceId, screen_constraints) {
         navigator.getUserMedia = navigator.mozGetUserMedia || navigator.webkitGetUserMedia;
         navigator.getUserMedia(screen_constraints, function (stream) {
-            var mediaURL = URL.createObjectURL(stream);
-            sendMedia(mediaURL);
+            // var mediaURL = URL.createObjectURL(stream);
+            // sendMedia(mediaURL);
             document.querySelector('video').src = URL.createObjectURL(stream);
         }, function (error) {
             console.error(error);
