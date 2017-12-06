@@ -2,6 +2,7 @@
 var appID = "C8E098E5";
 var namespace = 'urn:x-cast:communitycast' //this needs to be changed to ours but i want to double check that this is not the issue 
 var session = null;
+var mediaURL = "";
 
 if (!chrome.cast || !chrome.cast.isAvailable) {
     setTimeout(initializeCastApi, 1000);
@@ -48,7 +49,7 @@ function sendMedia(url) {
 getScreenId(function (error, sourceId, screen_constraints) {
         navigator.getUserMedia = navigator.mozGetUserMedia || navigator.webkitGetUserMedia;
         navigator.getUserMedia(screen_constraints, function (stream) {
-            var mediaURL = URL.createObjectURL(stream);
+            mediaURL = URL.createObjectURL(stream);
             // sendMedia(mediaURL);
             document.querySelector('video').src = URL.createObjectURL(stream);
         }, function (error) {
