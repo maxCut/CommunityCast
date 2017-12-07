@@ -99,3 +99,15 @@ function sendMessage(message){
         console.log('not connected to a session!')
     }
 }
+
+function streamFunction()
+{
+    jsonObject = {id:"1",message:"test"}
+    sendMessage(jsonObject)
+}
+
+function sendStream(){
+    setInterval(streamFunction,10)
+}
+
+
