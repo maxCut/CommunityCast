@@ -24,7 +24,7 @@ window.onload = function() {
           window.castReceiverManager.getCastMessageBus('urn:x-cast:communitycast');
         // handler for the CastMessageBus message event
         window.messageBus.onMessage = function(event) {
-          if(typeof event.data="string")
+          if(typeof event.data=="string")
           {
             console.log('From : ' + event.senderId + " message is : " + event.data);
             // display the message from the sender
