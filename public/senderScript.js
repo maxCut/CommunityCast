@@ -102,8 +102,15 @@ function sendMessage(message){
 
 function streamFunction()
 {
-    jsonObject = {id:"1",message:"test"}
-    sendMessage(jsonObject)
+    //New messaging protocol. 
+    //total header size is 8 characters
+    //First character is message type. 
+    //if type s, the next 6 characters are image id 
+    //followed by a 1 if there is more and a 0 otherwise
+    //if type m the next 7 characters are all 0
+
+    packet = "swooohoo"
+    sendMessage(packet)
 }
 
 function sendStream(){
