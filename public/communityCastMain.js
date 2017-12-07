@@ -24,8 +24,7 @@ window.onload = function() {
           window.castReceiverManager.getCastMessageBus('urn:x-cast:communitycast');
         // handler for the CastMessageBus message event
         window.messageBus.onMessage = function(event) {
-            console.log(event.type)
-          if(event.type=="string")
+          if(typeof event.data="string")
           {
             console.log('From : ' + event.senderId + " message is : " + event.data);
             // display the message from the sender
@@ -34,7 +33,7 @@ window.onload = function() {
             // sender message listener will be invoked
             window.messageBus.broadcast("from : " + event.senderId + " message is : " + event.data);
           }
-          else if(event.type=="json")
+          else if(typeof event.data=="object")
           {
             window.messageBus.broadcast("reveived stream bit")
           }
