@@ -24,19 +24,12 @@ window.onload = function() {
           window.castReceiverManager.getCastMessageBus('urn:x-cast:communitycast');
         // handler for the CastMessageBus message event
         window.messageBus.onMessage = function(event) {
-          if(event.data[0]=='m')
-          {
             console.log('From : ' + event.senderId + " message is : " + event.data);
             // display the message from the sender
             displayText(event.data);
             // inform all senders of the incoming message
             // sender message listener will be invoked
             window.messageBus.broadcast("from : " + event.senderId + " message is : " + event.data);
-          }
-          else if(event.data[0]=='s')
-          {
-            window.messageBus.broadcast("reveived stream bit")
-          }
         }
 
     //Media Protocol
