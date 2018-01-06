@@ -37,6 +37,7 @@ function loadScriptsNoCache(paths) {
 
 loadScriptsNoCache([
 'https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadGamesSDK&',
+'https://code.jquery.com/jquery-3.2.1.js',
   'senderScript.js'
 ]);
 
