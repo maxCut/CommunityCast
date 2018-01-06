@@ -20,7 +20,8 @@ app.get('/', function(req, res){
 app.post('/api/postStream',postStream)
 function postStream(req,res){
     console.log("posting stream")
-    const streamSubdomain=req.body.vidDomain //TODO this must be removed before public release
+    //const streamSubdomain=req.body.vidDomain //TODO this must be removed before public release
+    const streamSubdomain= "/test" //TODO this must be removed before public release
 
   //allow users to post stream to a front end specified domain
   //TODO this is only for testing purposes in the final version 
