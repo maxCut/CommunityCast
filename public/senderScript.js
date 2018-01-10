@@ -66,8 +66,8 @@ function postVideoSnapshot(vid){
     console.log(rawData)
     //$.post('/api/postStream',vid)
     //$.post('/api/postStream',{vid:"hello world",vidDomain:"/test"},function(data){})
+    $.post('/api/updateStream',{snapshotRawData:JSON.stringify(rawData),vidDomain:"/test"},function(data){})
     $.post('/api/postStream',{vidDomain:"/test"},function(data){})
-    $.post('/api/updateStream',{vidRawData:JSON.stringify(rawData),vidDomain:"/test"},function(data){})
 }
 
 //This captures the users screen

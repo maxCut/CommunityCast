@@ -21,22 +21,27 @@ app.post('/api/postStream',postStream)
 function postStream(req,res){
     console.log("posting stream")
     //const streamSubdomain=req.body.vidDomain //TODO this must be removed before public release
-    const streamSubdomain= "/test" //TODO this must be removed before public release
+    const streamSubdomain= "/test" //TODO this must be removed before public release its purpose is to limit the functions capabilities to only creating the page "test"
 
   //allow users to post stream to a front end specified domain
   //TODO this is only for testing purposes in the final version 
   //the user should not be able to create their own subdomain. It
   //should be randomly generated on the backend and then send to the user. (maybe use a hashing function)
   app.get(streamSubdomain, function(req, res) {
-      res.sendFile(__dirname + '/publicStream.html')
+      res.send(JSON.parse(dataBase))
+      console.log(dataBase)
   })
 }
 
 //Updates steam data on the database
 app.post('/api/updateStream',updateStream)
 function updateStream(req,res){
-    dataBase = req.body.snapshotRawData
+    //dataBase = req.body.snapshotRawData
+    dataBase = new Image()
 }
+
+//Allows data retreival
+
 
 
 //Determine hosting port (leave at 3000)
