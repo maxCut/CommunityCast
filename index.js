@@ -1,3 +1,4 @@
+//Dependencies
 const express = require('express')
 const fs = require('fs')
 const path = require('path')
@@ -5,43 +6,28 @@ const app = express()
 const http = require('http').Server(app)
 const bodyParser = require("body-parser")
 
-var dataBase
+var dataBase = new Map()//temp hashmap until mongodb is set up. TODO replace this
 
 //Configure body parser as middle ware
-app.use(bodyParser.urlencoded({extended: true, limit: '50mb'}))
-app.use(bodyParser.json({limit: '50mb'}))
+app.use(bodyParser.urlencoded({extended: true, limit: '500mb'}))
+app.use(bodyParser.json({limit: '500mb'}))
 
 //set up root direcrtory
 app.get('/', function(req, res){
     res.sendFile(__dirname + '/index.html')
 })//post main page
 
-//Method from front end that creates a new subdomain to post the stream on
-app.post('/api/postStream',postStream)
-function postStream(req,res){
-    console.log("posting stream")
-    //const streamSubdomain=req.body.vidDomain //TODO this must be removed before public release
-    const streamSubdomain= "/test" //TODO this must be removed before public release its purpose is to limit the functions capabilities to only creating the page "test"
-
-  //allow users to post stream to a front end specified domain
-  //TODO this is only for testing purposes in the final version 
-  //the user should not be able to create their own subdomain. It
-  //should be randomly generated on the backend and then send to the user. (maybe use a hashing function)
-  app.get(streamSubdomain, function(req, res) {
-      res.send(JSON.parse(dataBase))
-      console.log(dataBase)
-  })
-}
-
-//Updates steam data on the database
+//Updates steam data on the database TODO make this a put request
 app.post('/api/updateStream',updateStream)
 function updateStream(req,res){
-    //dataBase = req.body.snapshotRawData
-    dataBase = new Image()
+    dataBase.set(req.body.streamID,
+            req.body.snapshotRawData)
 }
 
 //Allows data retreival
-
+app.get('/api/dataStream/:streamID', function(req, res) {
+    res.send(JSON.parse(dataBase.get(req.params.streamID)))
+})
 
 
 //Determine hosting port (leave at 3000)

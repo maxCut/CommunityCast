@@ -1,7 +1,7 @@
 var appID = "C8E098E5"//app id. corosponds to registered google cast application
 var namespace = 'urn:x-cast:communitycast' //urn used for messaging protocol
 var session = null //current cast session variable
-var streamRate = 10//controls how frequently the stream is updated
+var streamRate = 1000//controls how frequently the stream is updated
 var mediaURL = "" //used to make a screen capture of the users desktop. Data is stored in this blob:url
 
 //Sets timeout to connect to chromecast if it can't find a chromecast now
@@ -51,6 +51,7 @@ function sendMedia(url) {
     //session.sendMessage(namespace,request)
 }
 
+
 //This function posts a snapshot of the passed element to the server and hosts in a subdomain
 function postVideoSnapshot(vid){
     //first get 2d context in raw data by posting video on canvas (this is realy memory intensive, there may be a better way)
@@ -62,12 +63,7 @@ function postVideoSnapshot(vid){
     var ctx = canvas.getContext('2d')
     ctx.drawImage(vid,0,0,canvas.width,canvas.height)
     var rawData = ctx.getImageData(0,0,canvas.width,canvas.height).data
-    console.log("raw data: ")
-    console.log(rawData)
-    //$.post('/api/postStream',vid)
-    //$.post('/api/postStream',{vid:"hello world",vidDomain:"/test"},function(data){})
-    $.post('/api/updateStream',{snapshotRawData:JSON.stringify(rawData),vidDomain:"/test"},function(data){})
-    $.post('/api/postStream',{vidDomain:"/test"},function(data){})
+    $.post('/api/updateStream',{snapshotRawData:JSON.stringify(rawData),streamID:"1"},function(data){})
 }
 
 //This captures the users screen
@@ -78,17 +74,7 @@ getScreenId(function (error, sourceId, screen_constraints) {
             document.querySelector('video').src = URL.createObjectURL(stream)
             var vid = document.querySelector('video')
 
-            //TODO all the lines from here until the next TODO are for testing development. Should be removed later
-            console.log(document.querySelector('video').src)
-            console.log("here")
-            console.log(vid.videoHeight)
-            setTimeout(function(){console.log(vid.videoHeight)},500)
-            //$.post("/api/hello",function(data){})
-            //$.post("/api/postStream",function(data){})
-            //postVideoSnapshot(document.querySelector('video'))
-            setTimeout(function(){postVideoSnapshot(document.querySelector('video'))},500)
-            //TODO
-
+            setTimeout(function(){sendStream()},500)//begins stream function once screen is grabbed.
         }, function (error) {
             console.error(error)
         })
@@ -143,8 +129,7 @@ function sendMessage(message){
 //This is the update function for the users stream.
 function streamFunction()
 {
-    packet = "swooohoo"
-    sendMessage(packet)
+    postVideoSnapshot(document.querySelector('video'))
 }
 
 //This function will call the stream function repeatedly at intervals of streamRate milleseconds
