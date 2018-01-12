@@ -6,7 +6,8 @@ const app = express()
 const http = require('http').Server(app)
 const bodyParser = require("body-parser")
 
-var dataBase = new Map()//temp hashmap until mongodb is set up. TODO replace this
+var dataBase
+//var dataBase = new Map()//temp hashmap until mongodb is set up. TODO replace this
 
 //Configure body parser as middle ware
 app.use(bodyParser.urlencoded({extended: true, limit: '500mb'}))
@@ -18,15 +19,18 @@ app.get('/', function(req, res){
 })//post main page
 
 //Updates steam data on the database TODO make this a put request
-app.post('/api/updateStream',updateStream)
+app.put('/api/updateStream',updateStream)
 function updateStream(req,res){
-    dataBase.set(req.body.streamID,
-            req.body.snapshotRawData)
+    console.log("here")
+    //dataBase.set(req.body.streamID,
+    //        req.body.snapshotRawData)
+    dataBase = req.body.snapshotRawData
 }
 
 //Allows data retreival
 app.get('/api/dataStream/:streamID', function(req, res) {
-    res.send(JSON.parse(dataBase.get(req.params.streamID)))
+    res.send(dataBase)
+    //res.send(JSON.parse(dataBase.get(req.params.streamID)))
 })
 
 

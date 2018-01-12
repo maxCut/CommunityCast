@@ -1,7 +1,7 @@
 var appID = "C8E098E5"//app id. corosponds to registered google cast application
 var namespace = 'urn:x-cast:communitycast' //urn used for messaging protocol
 var session = null //current cast session variable
-var streamRate = 1000//controls how frequently the stream is updated
+var streamRate = 10000//controls how frequently the stream is updated
 var mediaURL = "" //used to make a screen capture of the users desktop. Data is stored in this blob:url
 
 //Sets timeout to connect to chromecast if it can't find a chromecast now
@@ -63,8 +63,21 @@ function postVideoSnapshot(vid){
     var ctx = canvas.getContext('2d')
     ctx.drawImage(vid,0,0,canvas.width,canvas.height)
     var rawData = ctx.getImageData(0,0,canvas.width,canvas.height).data
-    $.post('/api/updateStream',{snapshotRawData:JSON.stringify(rawData),streamID:"1"},function(data){})
+    //$.post('/api/updateStream',{snapshotRawData:JSON.stringify(rawData),streamID:"1"},function(data){})
+    $.put('/api/updateStream',{snapshotRawData:JSON.stringify(rawData),streamID:"1"},function(data){})
 }
+
+//Uses ajax to make a put request
+$.put =function(url,data,successFunction,dataType){
+    return $.ajax({
+        url:url,
+        type:'PUT',
+        success:successFunction,
+        data:data,
+        contentType:dataType
+    });
+}
+
 
 //This captures the users screen
 getScreenId(function (error, sourceId, screen_constraints) {
