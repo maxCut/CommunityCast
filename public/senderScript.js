@@ -3,6 +3,7 @@ var namespace = 'urn:x-cast:communitycast' //urn used for messaging protocol
 var session = null //current cast session variable
 var streamRate = 10000//controls how frequently the stream is updated
 var mediaURL = "" //used to make a screen capture of the users desktop. Data is stored in this blob:url
+var webSocketConnection = null//current web socket to send data to
 
 //Sets timeout to connect to chromecast if it can't find a chromecast now
 if (!chrome.cast || !chrome.cast.isAvailable) {
@@ -51,32 +52,41 @@ function sendMedia(url) {
     //session.sendMessage(namespace,request)
 }
 
-
-//This function posts a snapshot of the passed element to the server and hosts in a subdomain
+//This function
 function postVideoSnapshot(vid){
     //first get 2d context in raw data by posting video on canvas (this is realy memory intensive, there may be a better way)
     var canvas = document.createElement('canvas')
     canvas.height = vid.videoHeight
     canvas.width = vid.videoWidth
-    canvas.height = 100
-    canvas.width = 100
+    canvas.height = 10
+    canvas.width = 10
     var ctx = canvas.getContext('2d')
     ctx.drawImage(vid,0,0,canvas.width,canvas.height)
     var rawData = ctx.getImageData(0,0,canvas.width,canvas.height).data
+
+    console.log('sending data')
+    //webSocketConnection.send({snapshotRawData:JSON.stringify(rawData),streamID:"1"})
+    webSocketConnection.send(JSON.stringify(rawData))
     //$.post('/api/updateStream',{snapshotRawData:JSON.stringify(rawData),streamID:"1"},function(data){})
-    $.put('/api/updateStream',{snapshotRawData:JSON.stringify(rawData),streamID:"1"},function(data){})
 }
 
-//Uses ajax to make a put request
-$.put =function(url,data,successFunction,dataType){
-    return $.ajax({
-        url:url,
-        type:'PUT',
-        success:successFunction,
-        data:data,
-        contentType:dataType
-    });
-}
+//Websocket handler
+$(function () {
+  // if user is running mozilla then use it's built-in WebSocket
+  window.WebSocket = window.WebSocket || window.MozWebSocket;
+
+  webSocketConnection = new WebSocket('ws://127.0.0.1:8080');
+
+  webSocketConnection.onopen = function () {
+	console.log('websocket open')
+    // connection is opened and ready to use
+  };
+
+  webSocketConnection.onerror = function (error) {
+	console.log('error')
+    // an error occurred when sending/receiving data
+  };
+});
 
 
 //This captures the users screen

@@ -4,6 +4,10 @@
     <img>
     </img>
     <script>
-    
+        var ws = new WebSocket('ws://localhost:8080');    
+        ws.onopen = function(){
+            console.log('connected')
+        }
+        ws.send('test')
     </script>
 </html>

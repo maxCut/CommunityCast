@@ -3,8 +3,37 @@ const express = require('express')
 const fs = require('fs')
 const path = require('path')
 const app = express()
-const http = require('http').Server(app)
+const http = require('http')
 const bodyParser = require("body-parser")
+const WebSocketServer = require('websocket').server
+
+var server = http.createServer(function(request, response) {
+    console.log((new Date()) + ' Received request for ' + request.url);
+});
+
+server.listen(8080, function() {
+    console.log((new Date()) + ' Server is listening on port 8080');
+});
+
+var ws = new WebSocketServer({httpServer:server})
+
+ws.on('request', function(request) {
+  console.log((new Date()) + ' Connection from origin '
+      + request.origin + '.');
+  // accept connection - you should check 'request.origin' to
+  // make sure that client is connecting from your website
+  // (http://en.wikipedia.org/wiki/Same_origin_policy)
+  var connection = request.accept(null, request.origin); 
+  // we need to know client index to remove them on 'close' event
+  console.log((new Date()) + ' Connection accepted.');
+
+  //Handle recieving messages
+  connection.on('message',function(message){
+      console.log('message recieved')
+      console.log(message)
+      console.log('Stream ID : ' + message.streamID)
+  });
+});
 
 var dataBase
 //var dataBase = new Map()//temp hashmap until mongodb is set up. TODO replace this
@@ -18,7 +47,6 @@ app.get('/', function(req, res){
     res.sendFile(__dirname + '/index.html')
 })//post main page
 
-//Updates steam data on the database TODO make this a put request
 app.put('/api/updateStream',updateStream)
 function updateStream(req,res){
     console.log("here")
@@ -35,7 +63,7 @@ app.get('/api/dataStream/:streamID', function(req, res) {
 
 
 //Determine hosting port (leave at 3000)
-http.listen((process.env.PORT || 3000), function(){
+http.Server(app).listen((process.env.PORT || 3000), function(){
   console.log('listening on *:3000')
 })
 
