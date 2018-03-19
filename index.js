@@ -5,9 +5,9 @@ const path = require('path')
 const app = express()
 const http = require('http')
 const bodyParser = require("body-parser")
+/*
 const WebSocketServer = require('websocket').server
 
-/*
 var buffer  = ""
 var server = http.createServer(function(request, response) {
     console.log((new Date()) + ' Received request for ' + request.url);
