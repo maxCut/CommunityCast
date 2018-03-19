@@ -7,6 +7,7 @@ const http = require('http')
 const bodyParser = require("body-parser")
 const WebSocketServer = require('websocket').server
 
+var buffer  = ""
 var server = http.createServer(function(request, response) {
     console.log((new Date()) + ' Received request for ' + request.url);
 });
@@ -30,12 +31,19 @@ ws.on('request', function(request) {
   //Handle recieving messages
   connection.on('message',function(message){
       console.log('message recieved')
-      console.log(message)
-      console.log('Stream ID : ' + message.streamID)
+      console.log(message.length)
+      if(message.utf8Data == ''){
+          dataBase = buffer
+          buffer = ''
+          console.log(dataBase)
+      }
+      else{
+          buffer+=message.utf8Data
+      }
   });
 });
 
-var dataBase
+var dataBase = ""
 //var dataBase = new Map()//temp hashmap until mongodb is set up. TODO replace this
 
 //Configure body parser as middle ware

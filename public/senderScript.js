@@ -4,6 +4,7 @@ var session = null //current cast session variable
 var streamRate = 10000//controls how frequently the stream is updated
 var mediaURL = "" //used to make a screen capture of the users desktop. Data is stored in this blob:url
 var webSocketConnection = null//current web socket to send data to
+var chunkSize = 1000 //Max Packet Size used
 
 //Sets timeout to connect to chromecast if it can't find a chromecast now
 if (!chrome.cast || !chrome.cast.isAvailable) {
@@ -58,16 +59,34 @@ function postVideoSnapshot(vid){
     var canvas = document.createElement('canvas')
     canvas.height = vid.videoHeight
     canvas.width = vid.videoWidth
-    canvas.height = 10
-    canvas.width = 10
+    canvas.height = 1000
+    canvas.width = 1000
     var ctx = canvas.getContext('2d')
     ctx.drawImage(vid,0,0,canvas.width,canvas.height)
     var rawData = ctx.getImageData(0,0,canvas.width,canvas.height).data
 
     console.log('sending data')
     //webSocketConnection.send({snapshotRawData:JSON.stringify(rawData),streamID:"1"})
-    webSocketConnection.send(JSON.stringify(rawData))
+    //webSocketConnection.send(JSON.stringify(rawData))
+    sendChunkedMessage(JSON.stringify(rawData))
     //$.post('/api/updateStream',{snapshotRawData:JSON.stringify(rawData),streamID:"1"},function(data){})
+}
+
+//Chunks up msg into packets to be sent via the web socket
+function sendChunkedMessage(msg)
+{
+    msgLength = msg.length
+    numChunks = msgLength/chunkSize
+    
+    //send the main chunks
+    for (i = 0; i<numChunks-1;i++){
+        webSocketConnection.send(msg.slice(i*chunkSize,(i+1)*chunkSize))
+    }
+
+    //send last bit of msg
+
+    webSocketConnection.send(msg.slice(msgLength-msgLength%chunkSize,msgLength))
+    webSocketConnection.send('')//lets server know that it is done recieving chunks
 }
 
 //Websocket handler
