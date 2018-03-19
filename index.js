@@ -5,7 +5,6 @@ const path = require('path')
 const app = express()
 const http = require('http')
 const bodyParser = require("body-parser")
-/*
 const WebSocketServer = require('websocket').server
 
 var buffer  = ""
@@ -43,8 +42,6 @@ ws.on('request', function(request) {
       }
   });
 });
-*/
-//The above is commented out for the demo. Uncomment to continue with websockets
 var dataBase = ""
 //var dataBase = new Map()//temp hashmap until mongodb is set up. TODO replace this
 
