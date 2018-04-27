@@ -7,7 +7,9 @@ const http = require('http')
 const bodyParser = require("body-parser")
 const WebSocketServer = require('websocket').server
 
-var buffer  = ""
+var buffer  = "" //handles temporary state of incomplete file chunks
+var dataBase = ""//most recent full set of file chunks
+
 var server = http.createServer(function(request, response) {
     console.log((new Date()) + ' Received request for ' + request.url);
 });
@@ -21,9 +23,6 @@ var ws = new WebSocketServer({httpServer:server})
 ws.on('request', function(request) {
   console.log((new Date()) + ' Connection from origin '
       + request.origin + '.');
-  // accept connection - you should check 'request.origin' to
-  // make sure that client is connecting from your website
-  // (http://en.wikipedia.org/wiki/Same_origin_policy)
   var connection = request.accept(null, request.origin); 
   // we need to know client index to remove them on 'close' event
   console.log((new Date()) + ' Connection accepted.');
@@ -36,14 +35,18 @@ ws.on('request', function(request) {
           dataBase = buffer
           buffer = ''
           console.log(dataBase)
+          connection.sendUTF(dataBase)
+
+      }
+      else if (message.utf8Data == 'load')
+      {
+          connection.sendUTF(dataBase)
       }
       else{
           buffer+=message.utf8Data
       }
   });
 });
-var dataBase = ""
-//var dataBase = new Map()//temp hashmap until mongodb is set up. TODO replace this
 
 //Configure body parser as middle ware
 app.use(bodyParser.urlencoded({extended: true, limit: '500mb'}))
@@ -53,21 +56,6 @@ app.use(bodyParser.json({limit: '500mb'}))
 app.get('/', function(req, res){
     res.sendFile(__dirname + '/index.html')
 })//post main page
-
-app.put('/api/updateStream',updateStream)
-function updateStream(req,res){
-    console.log("here")
-    //dataBase.set(req.body.streamID,
-    //        req.body.snapshotRawData)
-    dataBase = req.body.snapshotRawData
-}
-
-//Allows data retreival
-app.get('/api/dataStream/:streamID', function(req, res) {
-    res.send(dataBase)
-    //res.send(JSON.parse(dataBase.get(req.params.streamID)))
-})
-
 
 //Determine hosting port (leave at 3000)
 http.Server(app).listen((process.env.PORT || 3000), function(){

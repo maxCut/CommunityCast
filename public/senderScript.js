@@ -108,6 +108,7 @@ $(function () {
 });
 
 
+
 //This captures the users screen
 getScreenId(function (error, sourceId, screen_constraints) {
         navigator.getUserMedia = navigator.mozGetUserMedia || navigator.webkitGetUserMedia

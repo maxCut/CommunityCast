@@ -4,10 +4,17 @@
     <img>
     </img>
     <script>
-        var ws = new WebSocket('ws://localhost:8080');    
-        ws.onopen = function(){
-            console.log('connected')
+    $(function(){
+        webSocketConnection = new WebSocket('ws://127.0.0.1:8080');
+        webSocketConnection.onopen = function (){
+            console.log('websocket open')
         }
-        ws.send('test')
+        webSocketConnection.onmessage = function(message) {
+        console.log(JSON.parse(message.data));
+        }
+        
+
+    });
+    var webSocketConnection
     </script>
 </html>
