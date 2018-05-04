@@ -7,6 +7,8 @@ const http = require('http')
 const bodyParser = require("body-parser")
 const WebSocketServer = require('websocket').server
 
+const chunkSize = 1000
+
 var buffer  = "" //handles temporary state of incomplete file chunks
 var dataBase = ""//most recent full set of file chunks
 
@@ -19,6 +21,21 @@ server.listen(8080, function() {
 });
 
 var ws = new WebSocketServer({httpServer:server})
+
+function chunkMessage(connection,msg){
+    msgLength = msg.length
+    numChunks = msgLength/chunkSize
+
+    //send main chunks
+    for (i = 0; i< numChunks-1;i++){
+        connection.send(msg.slice(i*chunkSize,(i+1)*chunkSize))
+    }
+
+    //last bit of msg
+    connection.send(msg.slice(msgLength-msgLength%chunkSize,msgLength))
+    connection.send('')    // lets the reciever know that this is the last message
+
+}
 
 ws.on('request', function(request) {
   console.log((new Date()) + ' Connection from origin '
@@ -35,12 +52,14 @@ ws.on('request', function(request) {
           dataBase = buffer
           buffer = ''
           console.log(dataBase)
-          connection.sendUTF(dataBase)
+          connection.send("test")
 
       }
       else if (message.utf8Data == 'load')
       {
-          connection.sendUTF(dataBase)
+          chunkMessage(connection,dataBase)
+          //connection.send(dataBase)
+          //connection.sendUTF(dataBase)
       }
       else{
           buffer+=message.utf8Data
@@ -56,6 +75,10 @@ app.use(bodyParser.json({limit: '500mb'}))
 app.get('/', function(req, res){
     res.sendFile(__dirname + '/index.html')
 })//post main page
+
+app.get('/reciever', function(req, res){
+    res.sendFile(__dirname + '/publicStream.html')
+})//post reciever page
 
 //Determine hosting port (leave at 3000)
 http.Server(app).listen((process.env.PORT || 3000), function(){

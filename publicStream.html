@@ -8,13 +8,20 @@
         webSocketConnection = new WebSocket('ws://127.0.0.1:8080');
         webSocketConnection.onopen = function (){
             console.log('websocket open')
+            webSocketConnection.send('')
+            setInterval(function(){loadRequest(webSocketConnection)}, 500)
         }
         webSocketConnection.onmessage = function(message) {
-        console.log(JSON.parse(message.data));
+        console.log(message.data);
         }
         
 
     });
-    var webSocketConnection
+
+    function loadRequest(connection)
+    {
+        connection.send('load')
+    }
     </script>
+    
 </html>
