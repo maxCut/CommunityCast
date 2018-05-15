@@ -4,7 +4,8 @@
     <script src='https://www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js'></script>
     <script src='https://www.gstatic.com/cast/sdk/libs/games/1.0.0/cast_games_receiver.js'></script>
     <script src='https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadGamesSDK&'></script>
-    <script src='/communityCastMain.js'></script>
+    <script src='/ChromeCastCommunication.js'></script>
+    <script src='/WebSocketHandler.js'></script>
     <title>Community Cast</title>
 <style>
 body{
@@ -21,7 +22,7 @@ h1 {
     <h1>Hello World!</h1>
     <h2>Media:</h2>
     <div id = 'media'>
-        <video id='vid'></video>
+        <canvas id='vid'></canvas>
     </div>
     <h2>Messages:</h2>
     <div id="message"></div>
