@@ -73,11 +73,12 @@ app.use(bodyParser.json({limit: '500mb'}))
 
 //set up root direcrtory
 app.get('/', function(req, res){
-    res.sendFile(__dirname + '/index.html')
-})//post main page
+    res.sendFile(__dirname + '/CommunityCastSender/index.html')
+})//post sender page
 
 app.get('/reciever', function(req, res){
-    res.sendFile(__dirname + '/publicStream.html')
+    res.sendFile(__dirname + '/CommunityCastReciever/index.html')
+    //res.sendFile(__dirname + '/publicStream.html')
 })//post reciever page
 
 //Determine hosting port (leave at 3000)
@@ -85,5 +86,6 @@ http.Server(app).listen((process.env.PORT || 3000), function(){
   console.log('listening on *:3000')
 })
 
-//post files in the public folder
-app.use(express.static(__dirname+ '/public'))
+//post files in the public folders
+app.use(express.static(__dirname+ '/CommunityCastSender/public'))
+app.use(express.static(__dirname+ '/CommunityCastReciever/public'))
