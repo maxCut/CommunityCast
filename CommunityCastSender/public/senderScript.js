@@ -53,7 +53,7 @@ function sendMedia(url) {
     //session.sendMessage(namespace,request)
 }
 
-//This function
+//This function sends a screenshot of the passed video
 function postVideoSnapshot(vid){
     //first get 2d context in raw data by posting video on canvas (this is realy memory intensive, there may be a better way)
     var canvas = document.createElement('canvas')
