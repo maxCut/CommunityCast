@@ -38,6 +38,14 @@ function postVideo(vidData)
 {
     var vidCanvas = document.getElementById('vid')
     var ctx = vidCanvas.getContext('2d')     
-    ctx.putImageData(JSON.parse(vidData),0,0) //draw frame data on vid element
+    var parsed = JSON.parse(vidData)
+
+    var dataArray = new Uint8ClampedArray($.map(parsed, function(el) { return el }))
+
+    console.log("parsed")
+    console.log(parsed)
+    
+    var imageData = new ImageData(dataArray,100,100)
+    ctx.putImageData(imageData,0,0) //draw frame data on vid element
 }
 

@@ -11,8 +11,8 @@ function postVideoSnapshot(vid){
     var canvas = document.createElement('canvas')
     canvas.height = vid.videoHeight
     canvas.width = vid.videoWidth
-    canvas.height = 1000
-    canvas.width = 1000
+    canvas.height = 100
+    canvas.width = 100
     var ctx = canvas.getContext('2d')
     ctx.drawImage(vid,0,0,canvas.width,canvas.height)
     var rawData = ctx.getImageData(0,0,canvas.width,canvas.height).data
@@ -20,6 +20,7 @@ function postVideoSnapshot(vid){
     console.log('sending data')
     //webSocketConnection.send({snapshotRawData:JSON.stringify(rawData),streamID:"1"})
     //webSocketConnection.send(JSON.stringify(rawData))
+    console.log(rawData)
     sendChunkedMessage(JSON.stringify(rawData))
     //$.post('/api/updateStream',{snapshotRawData:JSON.stringify(rawData),streamID:"1"},function(data){})
 }

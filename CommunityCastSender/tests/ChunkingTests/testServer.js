@@ -73,11 +73,6 @@ app.get('/', function(req, res){
     res.sendFile(__dirname + '/CommunityCastSender/index.html')
 })//post sender page
 
-app.get('/reciever', function(req, res){
-    res.sendFile(__dirname + '/CommunityCastReciever/index.html')
-    //res.sendFile(__dirname + '/publicStream.html')
-})//post reciever page
-
 //Determine hosting port (leave at 3000)
 http.Server(app).listen((process.env.PORT || 3000), function(){
   console.log('listening on *:3000')
