@@ -1,57 +1,9 @@
-var appID = "C8E098E5"//app id. corosponds to registered google cast application
-var namespace = 'urn:x-cast:communitycast' //urn used for messaging protocol
-var session = null //current cast session variable
 var streamRate = 10000//controls how frequently the stream is updated
 var mediaURL = "" //used to make a screen capture of the users desktop. Data is stored in this blob:url
 var webSocketConnection = null//current web socket to send data to
 var chunkSize = 1000 //Max Packet Size used
 
-//Sets timeout to connect to chromecast if it can't find a chromecast now
-if (!chrome.cast || !chrome.cast.isAvailable) {
-    setTimeout(initializeCastApi, 1000)
-}
 
-//connects to chromecast
-function initializeCastApi(){
-    var sessionRequest = new chrome.cast.SessionRequest(appID)
-    var apiConfig = new chrome.cast.ApiConfig(sessionRequest,sessionListener,receiverListener)
-
-    chrome.cast.initialize(apiConfig,onSuccess,onFail)
-}
-
-//General sucess event handler
-function onSuccess() {
-    console.log('Sucess')
-}
-
-//General error handler
-function onFail(message) {
-    console.log('Error' + message)
-}
-
-//General cast message received handler
-function receiverMessage(namespace,message){
-    console.log('message received')
-    console.log(JSON.stringify(message))
-}
-
-//this function sends media urls
-function sendMedia(url) {
-    console.log('sending media')
-    
-    var mediaInfo = new chrome.cast.media.MediaInfo(url)
-    mediaInfo.metadata = new chrome.cast.media.GenericMediaMetadata()
-    mediaInfo.metadata.metadataType = chrome.cast.media.MetadataType.GENERIC
-    mediaInfo.contentType = 'video/mp4'
-    mediaInfo.metadata.title = 'title'
-    mediaInfo.metadata.images = [{'url':url}]
-            
-    var request = new chrome.cast.media.LoadRequest(mediaInfo)
-    request.autoplay = true
-    request.currentTime = 0
-    session.loadMedia(request,onSuccess,onFail)
-    //session.sendMessage(namespace,request)
-}
 
 //This function sends a screenshot of the passed video
 function postVideoSnapshot(vid){
@@ -122,52 +74,6 @@ getScreenId(function (error, sourceId, screen_constraints) {
             console.error(error)
         })
     })
-
-//Session handler for cast communication
-function sessionListener(e) {
-        console.log('New session ID:' + e.sessionId)
-        session = e
-        session.addUpdateListener(sessionUpdateListener)
-        session.addMessageListener(namespace, receiverMessage)
-}
-
-//Logger function checks if receivers are available
-function receiverListener(e) {
-	if(e === 'available') {
-          console.log('receiver found')
-        }
-        else {
-          console.log('receiver list empty')
-        }
-}
-
-//Handles session updates
-function sessionUpdateListener(state){
-    console.log("session updated")
-    if(!state){
-        session=null
-    }
-
-}
-
-//Sends the value of the message box to the receiver
-function grabMessage() {
-    var message = document.getElementById("message-box")
-    sendMessage(message.value)
-}
-
-//Sends messages to cast receiver
-function sendMessage(message){
-    if(session!=null)
-    {
-        session.sendMessage(namespace,message)
-        console.log('message sent')
-    }
-    else
-    {
-        console.log('not connected to a session!')
-    }
-}
 
 //This is the update function for the users stream.
 function streamFunction()
