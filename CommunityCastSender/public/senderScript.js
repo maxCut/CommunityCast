@@ -1,5 +1,6 @@
 var streamRate = 10000//controls how frequently the stream is updated
 var mediaURL = "" //used to make a screen capture of the users desktop. Data is stored in this blob:url
+var socketURL = location.origin.replace(/^http/,'ws')//finds port and domain
 var webSocketConnection = null//current web socket to send data to
 var chunkSize = 1000 //Max Packet Size used
 
@@ -47,7 +48,7 @@ $(function () {
   // if user is running mozilla then use it's built-in WebSocket
   window.WebSocket = window.WebSocket || window.MozWebSocket;
 
-  webSocketConnection = new WebSocket('ws://127.0.0.1:3000');
+  webSocketConnection = new WebSocket(socketURL);
 
   webSocketConnection.onopen = function () {
 	console.log('websocket open')

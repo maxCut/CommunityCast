@@ -1,4 +1,5 @@
-socketURL = 'ws://127.0.0.1:3000'
+var socketURL = location.origin.replace(/^http/,'ws')//may need to handle case of https
+//socketURL = 'ws://127.0.0.1:3000'
 $(function(){
     webSocketConnection = new WebSocket(socketURL)
     webSocketConnection.onopen = function (){
