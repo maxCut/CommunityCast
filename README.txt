@@ -10,17 +10,13 @@ npm run start
 
 
 Deployment
-When deploying should run on https://communitycastsender.herokuapp.com/
-NOTE: Master branch auto deploys
+When deploying sender app should run on https://communitycast.herokuapp.com/
+
+Receiver app runs on  https://communitycast.herokuapp.com/receiver/
 
 Hosting
 -held on Heroku
 
-Google Cast Registration API
--https://cast.google.com/publish/#/overview
 -App id: C8E098E5
 -Status: Unpublished
-
-DataBase
--MongoDB
 
