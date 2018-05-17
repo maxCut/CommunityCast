@@ -30,10 +30,9 @@ function chunkMessage(connection,msg){
     for (i = 0; i< numChunks-1;i++){
         connection.send(msg.slice(i*chunkSize,(i+1)*chunkSize))
     }
-
     //last bit of msg
     connection.send(msg.slice(msgLength-msgLength%chunkSize,msgLength))
-    connection.send('')    // lets the reciever know that this is the last message
+    connection.send('end')    // lets the reciever know that this is the last message
 
 }
 
