@@ -39,7 +39,7 @@ function sendChunkedMessage(msg)
     //send last bit of msg
 
     webSocketConnection.send(msg.slice(msgLength-msgLength%chunkSize,msgLength))
-    webSocketConnection.send('')//lets server know that it is done recieving chunks
+    webSocketConnection.send('end')//lets server know that it is done recieving chunks
 }
 
 //Websocket handler

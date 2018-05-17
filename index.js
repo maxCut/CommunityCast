@@ -45,9 +45,7 @@ ws.on('request', function(request) {
 
   //Handle recieving messages
   connection.on('message',function(message){
-      console.log('message recieved')
-      console.log(message.length)
-      if(message.utf8Data == ''){
+      if(message.utf8Data == 'end'){
           dataBase = buffer
           buffer = ''
           console.log(dataBase)
